@@ -78,7 +78,9 @@ class ElementsChoices:
 	mixer_simetry_for_four = [MixerSimetry.CorneredLeft, MixerSimetry.CorneredRight]
 
 	composed_elements = [Composed.Carousel, Composed.Tabs, Composed.FeaturedItems, Composed.Cards, Composed.DescriptiveItems, Composed.MixOfMixable]
-	composed_elements_p = [0.1,0.1,0.1,0.1,0.1,0.5]
+	composed_elements_p = [0.1,0.1,0.1,0.2,0,0.5]
+	#TODO: Setting descriptive element to 0 probability
+
 	#Content - Descriptor
 	#TODO: Change names to descriptive_items
 	descriptor_simetry = [DescriptorSimetry.Left, DescriptorSimetry.Right, DescriptorSimetry.Center, DescriptorSimetry.Mixed]

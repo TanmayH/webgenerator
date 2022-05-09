@@ -3,6 +3,7 @@ from Core.ScreenShutter import ScreenShutter
 from Core.FileManager import FileManager 
 import time
 import os
+import copy
 
 class DataSetter:
 	def __init__(self, webgen: WebGenerator, screen_shutter: ScreenShutter=None, delete_previous_files: bool=True):
@@ -25,7 +26,10 @@ class DataSetter:
 		count = 0
 		for i in range(n_files):
 			website = self.webgen.generate(with_annotations=True, with_color_variation=True) 
-			FileManager.save(os.path.join(output_path,"html/rw_"+str(i)+".html"),website.render())
+			orig_website = copy.deepcopy(website)
+			orig_website.head[-1]="" 
+			FileManager.save(os.path.join(output_path,"html/rw_"+str(i)+"sketch.html"),website.render())
+			FileManager.save(os.path.join(output_path,"html/rw_"+str(i)+".html"),orig_website.render())
 			count += 1
 		tac = time.time()
 		print("Generated {0} HTML files in {1} seconds. Files are in {2}.".format(count,round(tac-tic, 1),self.webgen.output_path))

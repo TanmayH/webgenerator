@@ -26,8 +26,8 @@ class ScreenShutter:
 
 	def capture_and_save(self,max_shoots=100000): #TODO: Refactor, a lot of messy code
 		# get a list of all the files to open
-		window_width = self.window_size[0]
-		window_height = self.window_size[1]
+		window_width = self.window_size[0] 
+		window_height = self.window_size[1] 
 		glob_folder = os.path.join(os.getcwd(), self.input_path+'*.html')
 
 		files_count = len(fnmatch.filter(os.listdir(self.input_path), '*.html'))
@@ -94,7 +94,7 @@ class ScreenShutter:
 				driver.execute_script("window.location.reload();")
 			
 			if self.full_screenshot:
-				driver.execute_script("window.screenshotHeight = "+str(window_height)+";")
+				driver.execute_script("window.screenshotWidth = "+str(1500)+";")
 
 			if annotations_file_exists:
 				driver.execute_script(scripts["labeler"])

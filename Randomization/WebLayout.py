@@ -47,7 +47,7 @@ class WebLayoutProbabilities:
             self.layout_specific(),
             self.sidebar_first_specific(), 
             self.navbar_first_specific(), 
-            self.sizes_specific(self.with_sidebar_specific(), self.with_header_specific(), self.with_navbar_specific(), self.with_header_specific())
+            self.sizes_specific(self.with_sidebar_specific(), self.with_header_specific(), self.with_navbar_specific(), self.with_footer_specific())
         )
         return specific
 

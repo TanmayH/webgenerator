@@ -1,7 +1,9 @@
 from Elements.HtmlElement import HtmlElement
 from dominate.tags import *
+from dominate import *
 from Core.Enums import *
 from Randomization.Elements import ElementsChoices
+from Randomization.RandomHelper import RandomHelper as rh
 
 class FeaturedItemElement(HtmlElement):
 	tag_name = "div"
@@ -24,7 +26,13 @@ class FeaturedItemElement(HtmlElement):
 			 cls="text-black rounded-circle mx-auto "+self.placeholder_extra_class)
 			h2(self.content[0])
 			p(self.content[1])
-			a(href="#", cls="btn btn-primary").add(self.content[2])
+			random_class = ""
+			if rh.flip_coin():
+				if rh.flip_coin():
+					random_class = " btn3"
+				else:
+					random_class = " btn2"
+			a(href="#", cls="btn btn-primary" + random_class).add(self.content[2])
 
 
 class CardElement(HtmlElement):
@@ -45,7 +53,7 @@ class CardElement(HtmlElement):
 		with self:
 			if self.with_placeholder:
 				#make_placeholder(286,180, "card-img-top", False, True)
-				PlaceholderElement(cls="card-img-top")
+				PlaceholderElement(cls="card-img-top") #check this for round. 
 			body = div(cls="card-body")
 			with body:
 				h5(cls="card-title").add_raw_string(self.content["title"])
@@ -53,8 +61,14 @@ class CardElement(HtmlElement):
 				actions = div(cls="d-flex justify-content-between align-items-center")
 				with actions:
 					btn_group = div(cls="btn-group")
+					random_class = ""
+					if rh.flip_coin():
+						if rh.flip_coin():
+							random_class = " btn3"
+						else:
+							random_class = " btn2"
 					with btn_group:
-						button(cls="btn btn-sm btn-outline-secondary", type="button").add_raw_string(self.content["action"])
+						button(cls="btn btn-sm btn-outline-secondary" + random_class, type="button").add_raw_string(self.content["action"])
 						#button(cls="btn btn-sm btn-outline-secondary", type="button").add_raw_string(text_btn_2)
 					small(cls="text-muted").add_raw_string(self.content["muted"])
 
@@ -147,13 +161,25 @@ class CallToActionElement(HtmlElement):
 						with text_container:
 							h1(self.content["heading"])
 							p(self.content["description"])
-						button(cls="btn btn-primary m-3").add(self.content["button"])
+						random_class = ""
+						if rh.flip_coin():
+							if rh.flip_coin():
+								random_class = " btn3"
+							else:
+								random_class = " btn2"
+						button(cls="btn btn-primary m-3"+random_class).add(self.content["button"])
 					elif self.mode == CallToActionElement.Mode.Aside:
 						text_container = div(cls="col-10")
 						with text_container:
 							h1(self.content["heading"])
 							p(self.content["description"])
-						button(cls="btn btn-primary m-3").add(self.content["button"])
+						random_class = ""
+						if rh.flip_coin():
+							if rh.flip_coin():
+								random_class = " btn3"
+							else:
+								random_class = " btn2"
+						button(cls="btn btn-primary m-3"+random_class).add(self.content["button"])
 					elif selfmode == CallToActionElement.Mode.AsideDescription:
 						self.add_class("p-2")
 						h1(self.content["heading"])
@@ -164,9 +190,21 @@ class CallToActionElement(HtmlElement):
 						# 	text_container = div(cls="d-flex align-items-center flex-row-reverse")
 						with text_container:
 							p(self.content["description"])
-							button(cls="btn btn-primary m-3").add(self.content["button"])
+							random_class = ""
+							if rh.flip_coin():
+								if rh.flip_coin():
+									random_class = " btn3"
+								else:
+									random_class = " btn2"
+							button(cls="btn btn-primary m-3"+random_class).add(self.content["button"])
 				else:
-					button(cls="btn btn-primary m-3").add(content["button"])
+					random_class = ""
+					if rh.flip_coin():
+						if rh.flip_coin():
+							random_class = " btn3"
+						else:
+							random_class = " btn2"
+					button(cls="btn btn-primary m-3"+random_class).add(content["button"])
 
 class ListElement(HtmlElement): 
 	#tag_name = "ul" | "ol" -> defined based on ordered parameter
@@ -311,9 +349,9 @@ class CarouselElement(HtmlElement): #TODO: Add parameters to populate with real 
 				with items_container: #TODO: Split the long line
 					div(div(h1(ele, cls="pt-5"), cls="d-block w-100 text-center", style="background-color: darkgrey; height: "+str(self.canonical_height)+"vh;"), cls="carousel-item"+(" active" if i == 0 else ""))
 
-			a(span(cls="carousel-control-prev-icon"),cls="carousel-control-prev", href="#"+self.id,
+			a(span(tags.i(cls = "fas fa-2x fa-angle-left"),cls="carousel-control-prev-icon"),cls="carousel-control-prev", href="#"+self.id,
 			 role="button", data_slide="prev")
-			a(span(cls="carousel-control-next-icon"),cls="carousel-control-next", href="#"+self.id,
+			a(span(tags.i(cls = "fas fa-2x fa-angle-right"),cls="carousel-control-next-icon"),cls="carousel-control-next", href="#"+self.id,
 			 role="button", data_slide="next")
 
 class FormElement(HtmlElement): #TODO: Add extra options for form construction
@@ -337,13 +375,25 @@ class FormElement(HtmlElement): #TODO: Add extra options for form construction
 					for opt in ele["choices"]:
 						opt_id = ele_id+"_"+ElementsUtils.idefy(opt)
 						with div(cls="form-check"):
-							input(cls="form-check-input", type="radio", name=ele_id, 
+							random_class = ""
+							if rh.flip_coin():
+								if rh.flip_coin():
+									random_class = " input3"
+								else:
+									random_class = " input2"
+							input(cls="form-check-input"+random_class, type="radio", name=ele_id, 
 							id=opt_id
 							)
 							label(opt,cls="form-check-label",_for=opt_id)
 			else:
 				label(ele["name"], _for=ele_id)
-				selector = select(cls="form-control", id=ele_id, data_wg_type="select")
+				random_class = ""
+				if rh.flip_coin():
+					if rh.flip_coin():
+						random_class = " select3"
+					else:
+						random_class = " select2"
+				selector = select(cls="form-control"+random_class, id=ele_id, data_wg_type="select")
 				with selector:
 					for opt in ele["choices"]:
 						option(opt)
@@ -352,19 +402,25 @@ class FormElement(HtmlElement): #TODO: Add extra options for form construction
 				ele_type = ele["type"]
 			else:
 				ele_type = "text"
+			random_class = ""
+			if rh.flip_coin():
+				if rh.flip_coin():
+					random_class = " input3"
+				else:
+					random_class = " input2"
 
 			if ele_type == ElementsChoices.InputTypes.Checkbox and is_alone_in_row:
-				with div(cls="custom-switch"):
-					input(type=ele["type"], id=ele_id, cls="custom-control-input")
+				with div(cls="custom-switch"): 
+					input(type=ele["type"], id=ele_id, cls="custom-control-input"+random_class)
 					label(ele["name"],_for=ele_id, cls="custom-control-label", data_wg_type=ele["type"])
 			elif ele_type == ElementsChoices.InputTypes.Range:
 				label(ele["name"],_for=ele_id)
-				input(type=ele["type"], id=ele_id, cls="custom-range", data_wg_type=ele["type"])
-			elif ele_type == ElementsChoices.InputTypes.Submit:
-				input(ele["name"],type=ele["type"], id=ele_id, cls="btn btn-primary", data_wg_type=ele["type"])
+				input(type=ele["type"], id=ele_id, cls="custom-range"+random_class, data_wg_type=ele["type"])
+			elif ele_type == ElementsChoices.InputTypes.Submit: #submit never occues right now
+				input(ele["name"],type=ele["type"], id=ele_id, cls="btn btn-primary"+random_class, data_wg_type=ele["type"])
 			else:
 				label(ele["name"],_for=ele_id)
-				input(type=ele["type"], id=ele_id, cls="form-control", data_wg_type=ele["type"])
+				input(type=ele["type"], id=ele_id, cls="form-control"+random_class, data_wg_type=ele["type"])
 		
 
 	def build(self):
